@@ -8,6 +8,22 @@ function App() {
   const [resetCards, setResetCards] = useState();
   const [points, setPoints] = useState(0);
 
+  function shuffleArray(arr) {
+    let currentIndex = arr.length;
+
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+    }
+    return arr;
+  }
+
+  // function shuffleCards() {
+  //   let cardIndex = [0, 1, 2, 3, 4, 5];
+  //   shuffleArray(cardIndex);
+  // }
+
   useEffect(() => {
     async function getData() {
       try {
@@ -49,11 +65,11 @@ function App() {
 
     if (card.clicked == 'yes') {
       setPoints(0);
-      setCards(resetCards);
+      setCards(shuffleArray(resetCards));
       return;
     }
 
-    setCards(nextCards);
+    setCards(shuffleArray(nextCards));
     setPoints(points + 1);
   }
 
