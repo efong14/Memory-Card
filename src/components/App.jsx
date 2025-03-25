@@ -7,6 +7,7 @@ function App() {
   const [cards, setCards] = useState(initialCards);
   const [resetCards, setResetCards] = useState();
   const [points, setPoints] = useState(0);
+  const [hPoints, setHPoints] = useState(0);
 
   function shuffleArray(arr) {
     let currentIndex = arr.length;
@@ -18,11 +19,6 @@ function App() {
     }
     return arr;
   }
-
-  // function shuffleCards() {
-  //   let cardIndex = [0, 1, 2, 3, 4, 5];
-  //   shuffleArray(cardIndex);
-  // }
 
   useEffect(() => {
     async function getData() {
@@ -55,6 +51,12 @@ function App() {
   }, []);
 
   function cardClick(index, card) {
+    if (card.clicked == 'yes') {
+      setPoints(0);
+      setCards(shuffleArray(resetCards));
+      return;
+    }
+
     const nextCards = cards.map((card, i) => {
       if (i == index) {
         return { ...card, clicked: 'yes' };
@@ -63,19 +65,17 @@ function App() {
       }
     });
 
-    if (card.clicked == 'yes') {
-      setPoints(0);
-      setCards(shuffleArray(resetCards));
-      return;
-    }
-
     setCards(shuffleArray(nextCards));
     setPoints(points + 1);
+
+    if (hPoints <= points) {
+      setHPoints(points + 1);
+    }
   }
 
   return (
     <>
-      <Head point={points} />
+      <Head point={points} hPoints={hPoints} />
       {cards.map((card, i) => {
         return <img key={card.image} src={card.image} alt="" onClick={() => cardClick(i, card)} />;
       })}
