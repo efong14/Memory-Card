@@ -49,6 +49,7 @@ function App() {
     setPoints(points + 1);
   }
 
+  // Test branch tester
   return (
     <>
       <Head point={points} />
