@@ -5,6 +5,7 @@ import Head from './Header';
 function App() {
   const initialCards = [];
   const [cards, setCards] = useState(initialCards);
+  const [resetCards, setResetCards] = useState();
   const [points, setPoints] = useState(0);
 
   useEffect(() => {
@@ -13,15 +14,19 @@ function App() {
         const response = await fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=6', {
           mode: 'cors',
         });
+
         const data = await response.json();
-        setCards([
-          [data.cards[0].image],
-          [data.cards[1].image],
-          [data.cards[2].image],
-          [data.cards[3].image],
-          [data.cards[4].image],
-          [data.cards[5].image],
-        ]);
+        const cardsData = [
+          { image: data.cards[0].image },
+          { image: data.cards[1].image },
+          { image: data.cards[2].image },
+          { image: data.cards[3].image },
+          { image: data.cards[4].image },
+          { image: data.cards[5].image },
+        ];
+
+        setCards(cardsData);
+        setResetCards(cardsData);
       } catch (error) {
         console.log(error);
       }
@@ -34,27 +39,29 @@ function App() {
   }, []);
 
   function cardClick(index, card) {
-    if (card[1] == 'yes') {
-      setPoints(0);
-      return;
-    }
     const nextCards = cards.map((card, i) => {
       if (i == index) {
-        return [...card, 'yes'];
+        return { ...card, clicked: 'yes' };
       } else {
         return card;
       }
     });
+
+    if (card.clicked == 'yes') {
+      setPoints(0);
+      setCards(resetCards);
+      return;
+    }
+
     setCards(nextCards);
     setPoints(points + 1);
   }
 
-  // Test branch tester
   return (
     <>
       <Head point={points} />
       {cards.map((card, i) => {
-        return <img key={card[0]} src={card[0]} alt="" onClick={() => cardClick(i, card)} />;
+        return <img key={card.image} src={card.image} alt="" onClick={() => cardClick(i, card)} />;
       })}
     </>
   );
