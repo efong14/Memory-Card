@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Head from './Header';
+import './App.css';
 
 function App() {
   const initialCards = [];
@@ -23,7 +24,7 @@ function App() {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=6', {
+        const response = await fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=12', {
           mode: 'cors',
         });
 
@@ -35,6 +36,12 @@ function App() {
           { image: data.cards[3].image },
           { image: data.cards[4].image },
           { image: data.cards[5].image },
+          { image: data.cards[6].image },
+          { image: data.cards[7].image },
+          { image: data.cards[8].image },
+          { image: data.cards[9].image },
+          { image: data.cards[10].image },
+          { image: data.cards[11].image },
         ];
 
         setCards(cardsData);
@@ -75,10 +82,16 @@ function App() {
 
   return (
     <>
-      <Head point={points} hPoints={hPoints} />
-      {cards.map((card, i) => {
-        return <img key={card.image} src={card.image} alt="" onClick={() => cardClick(i, card)} />;
-      })}
+      <section className="container">
+        <Head point={points} hPoints={hPoints} />
+        <div className="cardContainer">
+          {cards.map((card, i) => {
+            return (
+              <img key={card.image} src={card.image} alt="" onClick={() => cardClick(i, card)} />
+            );
+          })}
+        </div>
+      </section>
     </>
   );
 }

@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 65px;
+}
+
+section > div {
+  font-size: 20px;
+  margin: 5px;
+  color: white;
+}
+img {
+  width: 180px;
+}

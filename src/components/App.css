@@ -1,0 +1,12 @@
+.container {
+  border: 5px black solid;
+  max-width: 1500px;
+  width: 100%;
+}
+
+.cardContainer {
+  border: 2px solid blue;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
